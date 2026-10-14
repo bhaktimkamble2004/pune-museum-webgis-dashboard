@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pune Heritage Museums | Bhakti Kamble</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="topbar" aria-label="Main navigation">
+    <a class="brand" href="#home"><span class="brand-mark">◆</span><span>Pune Heritage GIS</span></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <div class="navlinks" id="navLinks">
+      <a href="#home">Home</a><a href="#dashboard">Dashboard</a><a href="#interactive-map">Interactive Map</a><a href="#analysis">Analysis</a><a href="#final-map">Final Map</a><a href="#about">About</a>
+    </div>
+  </nav>
+
+  <header class="home-hero" id="home">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-kicker">PUNE · HERITAGE · WEBGIS</p>
+      <h1>Spatial Distribution<br>of Museums</h1>
+      <p class="hero-place">Pune, Maharashtra, India</p>
+      <p class="hero-copy">An interactive geographic dashboard exploring Pune's museum locations, spatial relationships and heritage landscape using PostGIS, GeoServer and web mapping.</p>
+      <div class="hero-actions"><a class="btn primary" href="#interactive-map">Explore Interactive Map</a><a class="btn ghost" href="#analysis">View Spatial Analysis</a></div>
+      <div class="student-card"><span>Prepared by</span><strong>Bhakti Kamble</strong><small>Geoinformatics Student</small></div>
+    </div>
+    <div class="scroll-cue">SCROLL TO EXPLORE <span>↓</span></div>
+  </header>
+
+  <main>
+    <section class="section dashboard-section" id="dashboard">
+      <div class="section-title"><p class="section-kicker">GEOGRAPHIC OVERVIEW</p><h2>Pune Museum Dashboard</h2><p>Summary indicators derived from the museum dataset and PostGIS spatial analysis.</p></div>
+      <div class="summary-grid">
+        <article class="stat"><span>Total Museums</span><strong>8</strong><small>Point features</small></article>
+        <article class="stat"><span>Northern Pune</span><strong>3</strong><small>Latitude ≥ 18.52°</small></article>
+        <article class="stat"><span>Central Pune</span><strong>3</strong><small>18.49°–18.52°</small></article>
+        <article class="stat"><span>Southern Pune</span><strong>2</strong><small>Latitude &lt; 18.49°</small></article>
+      </div>
+      <div class="heritage-note"><div class="heritage-symbol">⌂</div><div><strong>Mapping Pune's museum heritage</strong><p>The dashboard combines point locations, connection lines and museum-building polygons to show how selected museums are distributed across Pune.</p></div></div>
+    </section>
+
+    <section class="section map-section" id="interactive-map">
+      <div class="section-title light"><p class="section-kicker">INTERACTIVE WEBGIS</p><h2>Explore the Museum Map</h2><p>Click a museum marker for details, search for a museum, and switch between satellite and street basemaps.</p></div>
+      <div class="map-card">
+        <div class="map-toolbar"><div class="map-badge"><span class="live-dot"></span>GeoServer layers</div><div class="search-wrap"><label for="museumSearch">Find a museum</label><select id="museumSearch"><option value="">Select a museum…</option></select></div></div>
+        <div class="map-shell"><div id="map"></div><div class="north-arrow"><span>N</span><div>▲</div></div></div>
+        <div class="map-note"><strong>Default basemap:</strong> Esri World Imagery (satellite) · Use the layer control to switch to OpenStreetMap or show/hide GeoServer layers.</div>
+      </div>
+    </section>
+
+    <section class="section analysis-section" id="analysis">
+      <div class="section-title"><p class="section-kicker">POSTGIS ANALYSIS</p><h2>Spatial Patterns & Statistics</h2><p>Charts summarize the geographic distribution and nearest-neighbour relationships in the museum dataset.</p></div>
+      <div class="analysis-grid">
+        <article class="chart-card"><div class="card-heading"><div><span>01</span><h3>Museums by Geographic Region</h3></div></div><div class="chart-box"><canvas id="regionChart"></canvas></div><p class="interpretation">The custom classification contains three museums in Northern Pune, three in Central Pune and two in Southern Pune.</p></article>
+        <article class="chart-card"><div class="card-heading"><div><span>02</span><h3>Nearest Museum Distance</h3></div></div><div class="chart-box"><canvas id="distanceChart"></canvas></div><p class="interpretation">The chart compares straight-line distance from each museum to its nearest museum. These are geographic distances, not road travel distances.</p></article>
+      </div>
+      <div class="lower-grid"><article class="panel"><p class="section-kicker">KEY FINDINGS</p><h3>Spatial observations</h3><ul id="findings"></ul></article><article class="panel"><p class="section-kicker">WEBGIS WORKFLOW</p><h3>From database to browser</h3><div class="workflow"><span>PostgreSQL / PostGIS</span><b>→</b><span>GeoServer</span><b>→</b><span>WMS</span><b>→</b><span>Leaflet</span></div><dl class="meta"><div><dt>Workspace</dt><dd>pune_gis</dd></div><div><dt>Point</dt><dd>museum_data</dd></div><div><dt>Line</dt><dd>museum_lines</dd></div><div><dt>Polygon</dt><dd>museum_buildings</dd></div></dl></article></div>
+    </section>
+
+    <section class="section final-section" id="final-map">
+      <div class="section-title"><p class="section-kicker">FINAL CARTOGRAPHIC OUTPUT</p><h2>Spatial Distribution of Museums</h2><p>The final QGIS layout presents the point, line and polygon datasets with cartographic map elements.</p></div>
+      <div class="layout-frame"><img src="spatial_distribution_layout.png" alt="Final spatial distribution of museums map for Pune"><div class="layout-caption"><strong>Final Map Layout</strong><span>Title · Legend · North arrow · Scale · Coordinate grid · Point, line & polygon layers</span></div></div>
+    </section>
+
+    <section class="section directory-section">
+      <div class="section-title"><p class="section-kicker">MUSEUM DATASET</p><h2>Museum Directory</h2><p>Click any row to locate that museum on the interactive map.</p></div>
+      <div class="museum-table-card"><div class="table-scroll"><table><thead><tr><th>Museum</th><th>Area / Address</th><th>Latitude</th><th>Longitude</th><th>Region</th></tr></thead><tbody id="museumRows"></tbody></table></div></div>
+    </section>
+
+    <section class="about-section" id="about">
+      <div class="about-inner"><div><p class="section-kicker gold">ABOUT THE PROJECT</p><h2>Heritage mapping through Geoinformatics</h2><p>This academic WebGIS project demonstrates an end-to-end geospatial workflow for Pune museum data: spatial data stored and analysed in PostgreSQL/PostGIS, published through GeoServer, and visualized through an interactive web map.</p><p>The project brings database analysis and cartographic design together in one heritage-themed dashboard.</p></div><div class="profile-card"><div class="profile-monogram">BK</div><div><span>Prepared by</span><h3>Bhakti Kamble</h3><p>Geoinformatics Student</p><small>PostGIS · GeoServer · QGIS · WebGIS</small></div></div></div>
+    </section>
+  </main>
+
+  <footer><div><strong>Pune Heritage GIS</strong><span>Spatial Distribution of Museums</span></div><div>Bhakti Kamble · Geoinformatics Student</div><div class="credits">Hero photograph: Shaniwar Wada, Wikimedia Commons</div></footer>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
