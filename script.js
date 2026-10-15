@@ -48,3 +48,33 @@ document.getElementById('findings').innerHTML=`<li>The dataset contains <strong>
 // Highlight navigation link for visible section
 const navAnchors=[...document.querySelectorAll('.navlinks a')];const targets=navAnchors.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
 const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){navAnchors.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}})},{rootMargin:'-35% 0px -55% 0px'});targets.forEach(t=>observer.observe(t));
+
+const revealElements = document.querySelectorAll(
+    ".section-title, .stat, .chart-card, .panel, .layout-frame, .museum-table-card, .profile-card"
+);
+
+revealElements.forEach((element, index) => {
+    element.classList.add("reveal");
+
+    // Small stagger between nearby elements
+    element.style.transitionDelay = `${(index % 4) * 0.08}s`;
+});
+
+const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    },
+    {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px"
+    }
+);
+
+revealElements.forEach((element) => {
+    revealObserver.observe(element);
+});
